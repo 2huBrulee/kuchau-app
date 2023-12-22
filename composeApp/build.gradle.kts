@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.resourcesLibresPlugin)
 }
 
 kotlin {
@@ -40,6 +41,7 @@ kotlin {
             implementation(compose.ui)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
+            implementation(libs.resources.libres)
         }
     }
 
@@ -51,6 +53,11 @@ kotlin {
         it.dependsOn.forEach { ssdo ->
             logger.lifecycle("source set $it => dependsOn $ssdo")
         }
+    }
+
+    libres {
+        generatedClassName = "AppResources" // "Res" by default
+        generateNamedArguments = true // false by default
     }
 }
 
