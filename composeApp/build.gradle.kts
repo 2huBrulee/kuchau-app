@@ -42,6 +42,16 @@ kotlin {
             implementation(compose.components.resources)
         }
     }
+
+    logger.lifecycle("Source Sets")
+
+    sourceSets.forEach {
+        val size = it.dependsOn.size
+        logger.lifecycle("source set $it, size: $size")
+        it.dependsOn.forEach { ssdo ->
+            logger.lifecycle("source set $it => dependsOn $ssdo")
+        }
+    }
 }
 
 android {
