@@ -1,48 +1,91 @@
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import io.github.skeptick.libres.compose.painterResource
-import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.simios.kuchau_app.AppResources
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
+import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
+import composables.Map
+import dev.icerock.moko.resources.compose.painterResource
+import org.simios.kuchau_app.resources.AppResources
 
-@OptIn(ExperimentalResourceApi::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun App() {
+    var isDialogOpen by remember { mutableStateOf(false) }
+
+
     MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
-        val greeting = remember { Greeting().greet() }
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(onClick = { showContent = !showContent }) {
-                Icon(
-                    painter = painterResource(AppResources.image.pistol),
-                    contentDescription = null,
-                    tint = Color(0xFF00FFFF),
-                    modifier = Modifier.height(10.dp)
-                )
-                Text("Click me!")
-            }
-            AnimatedVisibility(showContent) {
-                Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Image(painterResource(AppResources.image.kuchau), null)
-                    Text("Compose: $greeting")
+        BottomSheetNavigator {
+            val bsn = LocalBottomSheetNavigator.current
+            Column(modifier = Modifier.fillMaxSize()) {
+                Map(modifier = Modifier.fillMaxSize().weight(weight = 1f))
+                Button(onClick = {
+                    bsn.show(AnotherScreen())
+                }) {
+                    Icon(
+                        painter = painterResource(AppResources.images.pistol),
+                        contentDescription = null,
+                        tint = Color(0xFF00FFFF),
+                        modifier = Modifier.height(18.dp)
+                    )
+                    Text("Click me!")
                 }
+                Image(painterResource(AppResources.images.kuchau), null)
+
             }
+
+
+//            if (isDialogOpen) {
+//                Dialog(
+//                    onDismissRequest = {
+//                        isDialogOpen = false
+//                    },
+//                    properties = DialogProperties()
+//                ) {
+//                    Surface(
+//                        color = Color.Black,
+//                        modifier = Modifier.clip(RoundedCornerShape(16.dp))
+//                    ) {
+//                        Column(modifier = Modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+//                            Row(verticalAlignment = Alignment.CenterVertically) {
+//                                Text(
+//                                    "HellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellow",
+//                                    color = Color.White,
+//                                    modifier = Modifier.weight(1f)
+//                                )
+//                                Image(
+//                                    painter = painterResource(AppResources.images.kuchau),
+//                                    contentDescription = null,
+//                                    modifier = Modifier.weight(1f)
+//                                )
+//                            }
+//                            Button(
+//                                onClick = {}, colors = ButtonDefaults.buttonColors(
+//                                    backgroundColor = Color.Yellow
+//                                )
+//                            ) {
+//                                Text("Clicky", color = Color.Black)
+//                            }
+//
+//                        }
+//
+//                    }
+//                }
+//            }
+
+
         }
     }
 }

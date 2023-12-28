@@ -1,11 +1,10 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
-    alias(libs.plugins.resourcesLibresPlugin)
+    alias(libs.plugins.mokoResources)
 }
 
 kotlin {
@@ -17,31 +16,42 @@ kotlin {
         }
     }
     
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "ComposeApp"
-            isStatic = true
-        }
-    }
+//    listOf(
+//        iosX64(),
+//        iosArm64(),
+//        iosSimulatorArm64()
+//    ).forEach { iosTarget ->
+//        iosTarget.binaries.framework {
+//            baseName = "ComposeApp"
+//            isStatic = true
+//        }
+//    }
     
     sourceSets {
+        // Should not be necessary in future version of either moko resources or kotlin hierarchy template
+        androidMain.get().dependsOn(commonMain.get())
+
+//        iosMain.get().dependsOn(nativeMain.get())
+//        nativeMain.get().dependsOn(commonMain.get())
         
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.google.maps.compose)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.ui)
-            @OptIn(ExperimentalComposeLibrary::class)
-            implementation(compose.components.resources)
-            implementation(libs.resources.libres)
+
+            implementation(libs.voyager.navigator)
+            implementation(libs.voyager.bottomSheetNavigator)
+
+            implementation(libs.koin.core)
+
+            api(libs.moko.resources)
+            api(libs.moko.resources.compose)
         }
     }
 
@@ -55,9 +65,10 @@ kotlin {
         }
     }
 
-    libres {
-        generatedClassName = "AppResources" // "Res" by default
-        generateNamedArguments = true // false by default
+    multiplatformResources {
+        multiplatformResourcesPackage = "org.simios.kuchau_app.resources" // required
+        multiplatformResourcesClassName = "AppResources" // optional, default MR
+        iosBaseLocalizationRegion = "en" // optional, default "en"
     }
 }
 
