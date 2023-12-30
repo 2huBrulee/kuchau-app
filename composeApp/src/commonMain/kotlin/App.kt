@@ -1,25 +1,10 @@
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
-import composables.Map
-import dev.icerock.moko.resources.compose.painterResource
-import org.simios.kuchau_app.resources.AppResources
 import passenger.screens.RequestARideScreen
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -29,7 +14,7 @@ fun App() {
 
 
     MaterialTheme {
-        Navigator(RequestARideScreen())
+        Navigator(listOf(RequestARideScreen(), RequestARideScreen()))
 
 
 //        BottomSheetNavigator {

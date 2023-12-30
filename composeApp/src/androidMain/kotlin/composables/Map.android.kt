@@ -11,7 +11,7 @@ import com.google.maps.android.compose.*
 
 @Composable
 actual fun Map(modifier: Modifier) {
-    var singapore = LatLng(2.35, 103.87)
+    val singapore = LatLng(2.35, 103.87)
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(singapore, 12f)
     }
