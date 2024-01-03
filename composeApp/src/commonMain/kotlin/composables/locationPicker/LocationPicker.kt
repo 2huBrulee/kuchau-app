@@ -34,7 +34,7 @@ fun LocationPicker(
     textField: @Composable (() -> Unit)? = null
 ) {
     val navigator = LocalNavigator.currentOrThrow
-    val locationPickerViewModel = getViewModel(Unit, viewModelFactory {
+val locationPickerViewModel = getViewModel(Unit, viewModelFactory {
         LocationPickerViewModel(LatLng(0.0, 0.0))
     })
 
